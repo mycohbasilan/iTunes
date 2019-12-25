@@ -1,0 +1,72 @@
+apply plugin: 'com.android.application'
+
+apply from: 'dependencies-vars.gradle'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.basilanrm.itunes"
+        minSdkVersion 22
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://itunes.apple.com/\"")
+        }
+        release {
+            buildConfigField("String", "BASE_URL", "\"https://itunes.apple.com/\"")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // android support libraries
+    implementation "androidx.appcompat:appcompat:${supportLibraryVersion}"
+    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
+
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+
+    // picasso
+    implementation "com.squareup.picasso:picasso:${picassoVersion}"
+
+    // reactive
+    implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+
+    // logger
+    implementation "com.jakewharton.timber:timber:${timberVersion}"
+
+    // ViewModel and LiveData
+    implementation "androidx.lifecycle:lifecycle-extensions:${lifeCycleVersion}"
+    implementation "androidx.lifecycle:lifecycle-common-java8:${lifeCycleVersion}"
+
+    // Dagger 2
+    implementation "com.google.dagger:dagger:${daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+
+    // GSON
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
+    // Timber
+    implementation "com.jakewharton.timber:timber:${timberVersion}"
+
+    testImplementation "junit:junit:${junitVersion}"
+    androidTestImplementation "androidx.test.ext:junit:${junitTestVersion}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${espressoVersion}"
+}
