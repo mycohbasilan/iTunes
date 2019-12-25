@@ -20,4 +20,7 @@ ext {
     junitVersion = '4.12'
     junitTestVersion = '1.1.0'
     espressoVersion = '3.1.1'
+    recyclerViewVersion = '1.1.0'
+    cardViewVersion = '1.0.0'
+    butterKnifeVersion = '10.2.1'
 }

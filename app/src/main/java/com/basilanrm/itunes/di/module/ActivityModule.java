@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.basilanrm.itunes.di.ActivityContext;
+import com.basilanrm.itunes.di.PerActivity;
+import com.basilanrm.itunes.ui.activities.main.MainMvpPresenter;
+import com.basilanrm.itunes.ui.activities.main.MainPresenter;
+import com.basilanrm.itunes.ui.activities.main.MainView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,5 +29,11 @@ public class ActivityModule {
     @ActivityContext
     Context providesContext() {
         return activity;
+    }
+
+    @PerActivity
+    @Provides
+    MainMvpPresenter<MainView> providesMainPresenter(MainPresenter<MainView> mainMvpPresenter) {
+        return mainMvpPresenter;
     }
 }

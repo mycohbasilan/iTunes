@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">iTunes</string>
     <string name="pleae_wait">Please wait…</string>
+    <string name="movies">Movies</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.basilanrm.itunes.di.component;
 
-import com.basilanrm.itunes.ui.activities.MainActivity;
+import com.basilanrm.itunes.ui.activities.main.MainActivity;
 import com.basilanrm.itunes.di.PerActivity;
 import com.basilanrm.itunes.di.module.ActivityModule;
 
