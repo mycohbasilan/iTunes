@@ -14,19 +14,25 @@ import com.basilanrm.itunes.di.module.AppModule;
 import timber.log.Timber;
 
 public class ITunesApplication extends Application {
-    AppComponent appComponent;
 
-    public static ITunesApplication get(Context context) {
-        return (ITunesApplication) context.getApplicationContext();
+    private AppComponent mAppComponent;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        setupLogging();
+
+        mAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+
+        mAppComponent.inject(this);
+
     }
 
-    public AppComponent component() {
-        if (appComponent == null) {
-            appComponent = DaggerAppComponent.builder()
-                    .appModule(new AppModule(this))
-                    .build();
-        }
-        return appComponent;
+    public AppComponent getComponent() {
+        return mAppComponent;
     }
 
     private void setupLogging() {

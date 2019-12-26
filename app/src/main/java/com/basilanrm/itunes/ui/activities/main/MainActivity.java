@@ -1,6 +1,7 @@
 package com.basilanrm.itunes.ui.activities.main;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,6 +31,8 @@ public class MainActivity extends BaseActivity implements MainView {
     private MovieAdapter mMovieAdapter;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.tv_datelastvisited)
+    TextView tvLastVisitedDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,6 @@ public class MainActivity extends BaseActivity implements MainView {
         mainMvpPresenter.getMovies(TERM, COUNTRY, MEDIA);
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
         toolbar.setTitle(getResources().getString(R.string.movies));
-
     }
 
     @Override
@@ -51,12 +53,7 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
-    public void showEmptyList() {
-
-    }
-
-    @Override
     public void setDateLastVisited(String date) {
-
+        tvLastVisitedDate.setText(getResources().getString(R.string.last_visited_date, date));
     }
 }

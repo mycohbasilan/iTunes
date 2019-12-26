@@ -8,8 +8,6 @@ import java.util.ArrayList;
 public interface MainView extends BaseMvpView {
     void showMovies(ArrayList<Movie> movies);
 
-    void showEmptyList();
-
     void setDateLastVisited(String date);
 
     void hideLoading();

@@ -13,26 +13,19 @@ import com.basilanrm.itunes.di.module.ActivityModule;
 
 public class BaseActivity extends AppCompatActivity implements BaseMvpView{
 
-    private ActivityComponent activityComponent;
-
-    @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
-    }
-
-    public ActivityComponent getActivityComponent() {
-        if (activityComponent == null) {
-            activityComponent = DaggerActivityComponent.builder()
-                    .activityModule(new ActivityModule(this))
-                    .appComponent(ITunesApplication.get(this).component())
-                    .build();
-        }
-        return activityComponent;
-    }
+    private ActivityComponent mActivityComponent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mActivityComponent = DaggerActivityComponent.builder()
+                .activityModule(new ActivityModule(this))
+                .appComponent(((ITunesApplication) getApplication()).getComponent())
+                .build();
+    }
+
+    public ActivityComponent getActivityComponent() {
+        return mActivityComponent;
     }
 
     @Override
