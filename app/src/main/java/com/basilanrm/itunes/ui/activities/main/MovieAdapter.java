@@ -74,7 +74,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTrackName());
-            tvPrice.setText(movie.getTrackPrice());
+            tvPrice.setText("$" + movie.getTrackPrice());
             tvGenre.setText(movie.getPrimaryGenreName());
             Picasso.get()
                     .load(movie.getArtworkUrl100())
