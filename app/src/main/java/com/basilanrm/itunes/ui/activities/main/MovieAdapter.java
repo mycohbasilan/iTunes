@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.basilanrm.itunes.R;
 import com.basilanrm.itunes.data.model.Movie;
+import com.basilanrm.itunes.ui.ViewCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,9 +20,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> implements ViewCallback {
     private Context mContext;
     private ArrayList<Movie> mMovieList;
+    private MainView mMainView;
 
     public MovieAdapter(Context mContext, ArrayList<Movie> mMovieList) {
         this.mContext = mContext;
@@ -45,6 +47,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return mMovieList.size();
     }
 
+    @Override
+    public void setMainView(MainView view) {
+        this.mMainView = view;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.item_movie_poster)
@@ -62,6 +69,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(v -> mMainView.launchMovieDetailsScreen(mMovie));
         }
 
         public void bind(Movie movie) {

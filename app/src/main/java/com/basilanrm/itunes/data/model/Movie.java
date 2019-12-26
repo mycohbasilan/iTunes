@@ -1,9 +1,12 @@
 package com.basilanrm.itunes.data.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Movie {
+public class Movie implements Parcelable {
     @SerializedName("trackName")
     @Expose
     private String trackName;
@@ -25,6 +28,28 @@ public class Movie {
     @SerializedName("longDescription")
     @Expose
     private String longDescription;
+
+    protected Movie(Parcel in) {
+        trackName = in.readString();
+        artworkUrl30 = in.readString();
+        artworkUrl60 = in.readString();
+        artworkUrl100 = in.readString();
+        trackPrice = in.readString();
+        primaryGenreName = in.readString();
+        longDescription = in.readString();
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
 
     public String getTrackName() {
         return trackName;
@@ -80,5 +105,21 @@ public class Movie {
 
     public void setLongDescription(String longDescription) {
         this.longDescription = longDescription;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(trackName);
+        dest.writeString(artworkUrl30);
+        dest.writeString(artworkUrl60);
+        dest.writeString(artworkUrl100);
+        dest.writeString(trackPrice);
+        dest.writeString(primaryGenreName);
+        dest.writeString(longDescription);
     }
 }

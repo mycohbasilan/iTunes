@@ -1,5 +1,6 @@
 package com.basilanrm.itunes.ui.activities.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -8,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.basilanrm.itunes.R;
+import com.basilanrm.itunes.constants.Keys;
 import com.basilanrm.itunes.data.model.Movie;
+import com.basilanrm.itunes.ui.activities.details.MovieDetailsActivity;
 import com.basilanrm.itunes.ui.base.BaseActivity;
 
 import java.util.ArrayList;
@@ -50,10 +53,18 @@ public class MainActivity extends BaseActivity implements MainView {
     public void showMovies(ArrayList<Movie> movies) {
         mMovieAdapter = new MovieAdapter(this, movies);
         rvMovies.setAdapter(mMovieAdapter);
+        mMovieAdapter.setMainView(this);
     }
 
     @Override
     public void setDateLastVisited(String date) {
         tvLastVisitedDate.setText(getResources().getString(R.string.last_visited_date, date));
+    }
+
+    @Override
+    public void launchMovieDetailsScreen(Movie movie) {
+        Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+        intent.putExtra(Keys.MOVIE_EXTRA, movie);
+        startActivity(intent);
     }
 }

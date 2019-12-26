@@ -11,4 +11,6 @@ public interface MainView extends BaseMvpView {
     void setDateLastVisited(String date);
 
     void hideLoading();
+
+    void launchMovieDetailsScreen(Movie movie);
 }
