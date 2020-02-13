@@ -8,6 +8,7 @@ import com.basilanrm.itunes.data.model.Movie;
 import com.basilanrm.itunes.data.model.MovieListResponse;
 import com.basilanrm.itunes.di.AppContext;
 import com.basilanrm.itunes.ui.base.BasePresenter;
+import com.basilanrm.itunes.ui.base.BaseSubscriber;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,55 +16,38 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.disposables.CompositeDisposable;
 
-public class MainPresenter <V extends MainView> extends BasePresenter<V> implements MainMvpPresenter<V> {
+public class MainPresenter<V extends MainView> extends BasePresenter<V> implements MainMvpPresenter<V> {
 
     private DataManager dataManager;
     private ArrayList<Movie> movieList;
 
     @Inject
-    public MainPresenter(@AppContext Context context, DataManager dataManager) {
-        super(context);
+    public MainPresenter(@AppContext Context context, DataManager dataManager, CompositeDisposable compositeDisposable) {
+        super(context, compositeDisposable);
         this.dataManager = dataManager;
     }
 
     @Override
     public void getMovies(String term, String country, String media) {
-        getMVpView().setDateLastVisited(dataManager.getLastVisitedDate());
+        getMVPView().setDateLastVisited(dataManager.getLastVisitedDate());
         dataManager.setLastVisitedDate(getCurrentDate());
-        dataManager.getMovies(term, country, media)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MovieListResponse>() {
-                    Disposable disposable;
+        observe(dataManager.getMovies(term, country, media),
+                new BaseSubscriber<MovieListResponse>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-                        disposable = d;
+                    public void onSuccess(MovieListResponse movieListResponse) {
+                        movieList = movieListResponse.getResults();
+                        getMVPView().hideLoading();
+                        getMVPView().showMovies(movieList);
                     }
 
                     @Override
-                    public void onNext(MovieListResponse results) {
-                        movieList = results.getResults();
-                        getMVpView().hideLoading();
-                        getMVpView().showMovies(movieList);
+                    public void onError(String error) {
+                        getMVPView().hideLoading();
+                        getMVPView().showError(error);
                     }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        getMVpView().hideLoading();
-                        getMVpView().showError(e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        if(!disposable.isDisposed()){
-                            disposable.dispose();
-                        }
-                    }
                 });
     }
 

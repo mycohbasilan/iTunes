@@ -11,6 +11,7 @@ import com.basilanrm.itunes.ui.activities.main.MainView;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.disposables.CompositeDisposable;
 
 @Module
 public class ActivityModule {
@@ -35,5 +36,10 @@ public class ActivityModule {
     @Provides
     MainMvpPresenter<MainView> providesMainPresenter(MainPresenter<MainView> mainMvpPresenter) {
         return mainMvpPresenter;
+    }
+
+    @Provides
+    CompositeDisposable compositeDisposable() {
+        return new CompositeDisposable();
     }
 }
